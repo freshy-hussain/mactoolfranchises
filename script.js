@@ -14,7 +14,7 @@ jQuery( document ).ready( function( $ ) {
 
 // save UTM parameters to local storage for users
 (function() {
-  const params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  const params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'Mac_Sales_District', 'Mac_Sales_Division', 'Mac_Sales_Region'];
   const url = new URLSearchParams(window.location.search);
 
   params.forEach(p => {
