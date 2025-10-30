@@ -14,12 +14,12 @@ jQuery( document ).ready( function( $ ) {
 
 // If URL parameters are present, save them to local store. Then, insert in Gravity Forms
 document.addEventListener('DOMContentLoaded', function() {
-  const params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'txtsourcedetails'];
+  const params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'txtsourcedetails', 'ddlsource'];
   const url = new URLSearchParams(window.location.search);
 
   // field parameters from URL and save to local storage
   params.forEach(p => {
-    if (url.get(p) && !(p == 'txtsourcedetails')) {
+    if (url.get(p) && !(p == 'txtsourcedetails' || p == 'ddlsource')) {
       localStorage.setItem(p, url.get(p));
     } 
   });
@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
   params.forEach(function(field) {
     let value = localStorage.getItem(field);
 
-    // if (field == 'ddlsource') {
-    //   value = localStorage.getItem('utm_campaign');
-    // } 
+    if (field == 'ddlsource') {
+      value = localStorage.getItem('utm_campaign');
+    } 
     if (field == 'txtsourcedetails') {
       value = localStorage.getItem('utm_medium');
     }
