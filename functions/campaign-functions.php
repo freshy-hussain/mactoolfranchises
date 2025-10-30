@@ -142,7 +142,7 @@ function render_campaign_share_url_box($post) {
  * Save GF form submissions for the Lead CPT
  */
 add_action('gform_after_submission_1', 'gf_to_acf_lead_submission', 10, 2);
-add_action('gform_after_submission_2', 'gf_to_acf_lead_submission', 10, 2);
+// add_action('gform_after_submission_2', 'gf_to_acf_lead_submission', 10, 2);
 
 function gf_to_acf_lead_submission($entry, $form) {
     // Map GF fields to ACF field keys/names
@@ -231,3 +231,16 @@ add_filter('gform_replace_merge_tags', function($text, $form, $entry) {
 
     return $text;
 }, 10, 3);
+
+// Add field label (or admin label) as a CSS class to Gravity Forms input.
+add_filter( 'gform_field_css_class', function( $classes, $field, $form ) {
+    // Use Admin Label if available, otherwise use Field Label
+    $label = ! empty( $field->adminLabel ) ? $field->adminLabel : $field->label;
+
+    if ( $label ) {
+        $slug = $label;
+        $classes .= ' field-' . $slug;
+    }
+
+    return $classes;
+}, 10, 3 );

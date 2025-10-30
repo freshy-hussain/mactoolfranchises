@@ -12,19 +12,38 @@ jQuery( document ).ready( function( $ ) {
 	});
 });
 
-// save UTM parameters to local storage for users
-(function() {
-  const params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'Mac_Sales_Region', 'Mac_Sales_Division', 'Mac_Sales_District'];
+// If URL parameters are present, save them to local store. Then, insert in Gravity Forms
+document.addEventListener('DOMContentLoaded', function() {
+  const params = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'txtsourcedetails'];
   const url = new URLSearchParams(window.location.search);
 
+  // field parameters from URL and save to local storage
   params.forEach(p => {
-    if (url.get(p)) {
+    if (url.get(p) && !(p == 'txtsourcedetails')) {
       localStorage.setItem(p, url.get(p));
-    } else if (!url.get(p) && localStorage.getItem(p)) {
-      // Add UTM params back into URL for Gravity Forms to pick up
-      const currentUrl = new URL(window.location.href);
-      currentUrl.searchParams.set(p, localStorage.getItem(p));
-      window.history.replaceState({}, '', currentUrl);
+    } 
+  });
+
+  // 
+  params.forEach(function(field) {
+    let value = localStorage.getItem(field);
+
+    // if (field == 'ddlsource') {
+    //   value = localStorage.getItem('utm_campaign');
+    // } 
+    if (field == 'txtsourcedetails') {
+      value = localStorage.getItem('utm_medium');
+    }
+
+    if (!value) return; // Skip if no stored value
+
+    const wrapper = document.querySelector('.field-' + field);
+    if (!wrapper) return; // Skip if that field doesn't exist on this form
+
+    // Find the input inside the wrapper and insert
+    const input = wrapper.querySelector('input');
+    if (input) {
+      input.value = value;
     }
   });
-})();
+});
