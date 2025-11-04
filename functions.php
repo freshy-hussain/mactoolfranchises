@@ -18,7 +18,7 @@ function fs_theme_enqueue_stuff() {
 	// then we get the child theme style.css file, which is dependent on the parent theme style, then append string of child version and file date
 	wp_enqueue_style( 'fs-child-style', get_stylesheet_uri(), array( $parent_handle ), $child_version .'-'. $style_cache_buster );
 	// will grab the script file from the child theme directory, and is reliant on jquery and the divi-custom-script (so it comes after that one)
-	wp_enqueue_script( 'fs-child-script', get_stylesheet_directory_uri() . '/script.js', array('jquery', 'divi-custom-script'), $child_version .'-'. $script_cache_buster, false);
+	wp_enqueue_script( 'fs-child-script', get_stylesheet_directory_uri() . '/script.js', array('jquery', 'divi-custom-script'), $child_version .'-'. $script_cache_buster, true);
 }
 add_action( 'wp_enqueue_scripts', 'fs_theme_enqueue_stuff' );
 
